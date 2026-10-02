@@ -1,10 +1,11 @@
 {
   "name": "redlib-cloudflare",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "engines": { "node": ">=22.18.0" },
   "scripts": {
+    "postinstall": "node cloudflare/prepare-source-build.mjs",
     "dev": "wrangler dev",
     "typecheck": "tsc --noEmit",
     "test": "node --test cloudflare/tests/*.test.mjs",
@@ -13,7 +14,10 @@
     "check:bundle": "wrangler deploy --dry-run --containers-rollout=none --outdir .cloudflare-dist",
     "logs": "wrangler tail"
   },
-  "dependencies": { "@cloudflare/containers": "0.3.7" },
+  "dependencies": {
+    "@cloudflare/containers": "0.3.7",
+    "jsonc-parser": "3.3.1"
+  },
   "devDependencies": {
     "@cloudflare/workers-types": "5.20261002.1",
     "typescript": "7.0.2",
