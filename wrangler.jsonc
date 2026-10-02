@@ -1,0 +1,36 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "redlib-cloudflare",
+  "main": "cloudflare/worker/index.ts",
+  "compatibility_date": "2026-10-02",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "containers": [
+    {
+      "class_name": "RedlibContainer",
+      "image": "./cloudflare/Dockerfile",
+      "instance_type": "basic",
+      "max_instances": 1,
+      "constraints": { "regions": ["APAC"] }
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      { "name": "REDLIB", "class_name": "RedlibContainer" }
+    ]
+  },
+  "exports": {
+    "RedlibContainer": { "type": "durable-object", "storage": "sqlite" }
+  },
+  "vars": {
+    "REDLIB_DEFAULT_THEME": "system",
+    "REDLIB_DEFAULT_LAYOUT": "card",
+    "REDLIB_DEFAULT_FRONT_PAGE": "default",
+    "REDLIB_ROBOTS_DISABLE_INDEXING": "on",
+    "REDLIB_ENABLE_RSS": "off"
+  }
+}
